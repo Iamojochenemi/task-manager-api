@@ -1,0 +1,11 @@
+from rest_framework.response import Response
+
+def api_response(data=None, message="success", status=True, http_status=200):
+    return Response(
+        {
+            "status": status,
+            "message": message,
+            "data": data
+        },
+        status=http_status
+    )

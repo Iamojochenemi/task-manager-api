@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'tasks',
+    'ecommerce',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'task_manager_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'taskdb',
+        'USER': 'postgres',
+        'PASSWORD': 'chenemi1999',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -120,6 +126,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -130,4 +137,11 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }

@@ -17,20 +17,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from tasks.views import TaskViewSet
+from ecommerce.views import ProductViewSet, OrderViewSet, RegisterView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
 router = routers.DefaultRouter()
-router.register(r'tasks', TaskViewSet, basename='task')
+router.register(r'products', ProductViewSet, basename='product')
+router.register(r'orders', OrderViewSet, basename='order')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/register/', RegisterView.as_view(), name='register'),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api-auth/', include('rest_framework.urls')),
 
 ]
